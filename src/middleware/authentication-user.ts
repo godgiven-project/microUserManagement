@@ -1,19 +1,33 @@
 import { ServerResponse } from 'http';
-import Debug from 'debug';
 import * as jwt from './json-web-token.js';
 
 import type { IncomingMessage } from 'http';
 
-export interface requestType extends IncomingMessage
+interface UserAuth extends Record<string, unknown>
 {
-  user?: {
-    name: string;
-  };
+  username: string;
+  password: string;
+  phone?: string;
+  email?: string;
 }
 
-const debug = Debug('auth');
+interface UserBasic extends Record<string, unknown>
+{
+  username: string;
+  password: string;
+  phone?: string;
+  email?: string;
+}
+
+type UserType = UserAuth | UserBasic;
+
+export interface requestType extends IncomingMessage
+{
+  user?: UserType;
+}
+
 // define plugin using callbacks
-export const authFunction = (request: requestType, reply: ServerResponse): requestType =>
+export const authFunction = (request: requestType, _reply: ServerResponse): requestType =>
 {
   const authHeader = request.headers.authorization;
   let token = '';
@@ -26,17 +40,11 @@ export const authFunction = (request: requestType, reply: ServerResponse): reque
   }
   else
   {
-    reply.writeHead(401, { 'Content-Type': 'application/json' });
-    debug('401 - User don,t have a token');
-    reply.end();
     return request;
   }
 
   if ((globalThis as any).secreatKey == null)
   {
-    reply.writeHead(401, { 'Content-Type': 'application/json' });
-    debug('401 - secretkey is not set');
-    reply.end();
     return request;
   }
 
@@ -48,9 +56,6 @@ export const authFunction = (request: requestType, reply: ServerResponse): reque
   }
   catch
   {
-    reply.writeHead(403, { 'Content-Type': 'application/json' });
-    debug('403 - Bad token');
-    reply.end();
     return request;
   }
 };

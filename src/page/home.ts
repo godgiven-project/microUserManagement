@@ -1,5 +1,5 @@
 import { ServerResponse } from 'http';
-import { requestType } from '../middleware/authentication-server';
+import { requestType } from '../middleware/authentication-user';
 import { sendResponse } from '@godgiven/type-server';
 import Debug from 'debug';
 
