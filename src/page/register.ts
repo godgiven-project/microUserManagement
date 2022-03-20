@@ -1,14 +1,9 @@
 import { ServerResponse } from 'http';
 import { requestType } from '../middleware/authentication-user';
 import { sendResponse } from '@godgiven/type-server';
-import Debug from 'debug';
-
-const log = Debug('app/page/home');
 
 export const pageRigister = async (_request: requestType, response: ServerResponse): Promise<void> =>
 {
-  log('pageHome');
-
   sendResponse(response, 200, {
     ok: true,
     description: '..:: Welcome ::..',
