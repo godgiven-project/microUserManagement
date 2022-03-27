@@ -3,9 +3,9 @@ type Validation = 'required' | 'html';
 export interface Config
 {
   baseKey: string;
-  secreatKey: string;
-  shouldVerify: boolean;
-  verifyCodeLenthe: number;
+  secretKey: string;
+  verifyBaseKey: boolean;
+  verifyTokenLength: number;
   databasePath: string;
   validate: Record<string, Record<string, Validation[]>>;
 }
@@ -13,13 +13,13 @@ export interface Config
 export const config: Config =
 {
   baseKey: 'phone',
-  secreatKey: 'test secretKey',
-  shouldVerify: false,
-  verifyCodeLenthe: 6,
+  secretKey: 'test secretKey',
+  verifyBaseKey: false,
+  verifyTokenLength: 6,
   databasePath: './data',
   validate: {
     base: {},
-    rigister: {
+    register: {
       username: ['required'],
       password: ['required']
     },

@@ -43,7 +43,7 @@ export const authFunction = (request: requestType, _reply: ServerResponse): requ
     return request;
   }
 
-  if (config.secreatKey == null)
+  if (config.secretKey == null)
   {
     return request;
   }
@@ -51,7 +51,7 @@ export const authFunction = (request: requestType, _reply: ServerResponse): requ
   // Verify token
   try
   {
-    request.user = jwt.verify(token, config.secreatKey) as typeof request.user;
+    request.user = jwt.verify(token, config.secretKey) as typeof request.user;
     return request;
   }
   catch

@@ -18,7 +18,7 @@ function makeRandomNumber(count: number): number
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-export const pageGetVerifyCode = async (request: requestType, response: ServerResponse): Promise<void> =>
+export const pageVerificationToken = async (request: requestType, response: ServerResponse): Promise<void> =>
 {
   const params = await bodyParser(request).catch((err) => console.log(err));
   if (params == null)
@@ -52,7 +52,7 @@ export const pageGetVerifyCode = async (request: requestType, response: ServerRe
     const update = await database.insert(
       fieldValue.replace(/[/|\\:*?"<>]/g, ''),
       {
-        code: makeRandomNumber(config.verifyCodeLenthe)
+        code: makeRandomNumber(config.verifyTokenLength)
       },
       params.value.replace(/[/|\\:*?"<>]/g, ''),
     );

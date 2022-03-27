@@ -2,8 +2,8 @@ import { App } from '@godgiven/type-server';
 import { authFunction } from './middleware/authentication-user.js';
 import {
   pageHome,
-  pageRigister,
-  pageGetVerifyCode
+  pageRegister,
+  pageVerificationToken
 } from './page/index.js';
 
 const app = new App();
@@ -13,7 +13,7 @@ app.middlewareList.push(authFunction);
 
 app.register('GET', '/', pageHome);
 app.register('GET', '', pageHome);
-app.register('POST', '/getVerifyCode', pageGetVerifyCode);
-app.register('GET', '/register', pageRigister);
+app.register('POST', '/VerificationToken', pageVerificationToken);
+app.register('GET', '/register', pageRegister);
 
 app.listen();
