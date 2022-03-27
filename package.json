@@ -28,6 +28,7 @@
     "postinstall": "yarn build"
   },
   "dependencies": {
+    "@godgiven/database": "^0.1.3",
     "@godgiven/type-server": "^0.1.3",
     "debug": "^4.3.3",
     "jsonwebtoken": "^8.5.1"

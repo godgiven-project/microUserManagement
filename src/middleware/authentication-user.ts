@@ -1,6 +1,6 @@
 import { ServerResponse } from 'http';
 import * as jwt from './json-web-token.js';
-
+import { config } from '../config.js';
 import type { IncomingMessage } from 'http';
 
 interface UserAuth extends Record<string, unknown>
@@ -43,7 +43,7 @@ export const authFunction = (request: requestType, _reply: ServerResponse): requ
     return request;
   }
 
-  if ((globalThis as any).secreatKey == null)
+  if (config.secreatKey == null)
   {
     return request;
   }
@@ -51,7 +51,7 @@ export const authFunction = (request: requestType, _reply: ServerResponse): requ
   // Verify token
   try
   {
-    request.user = jwt.verify(token, (globalThis as any).secreatKey) as typeof request.user;
+    request.user = jwt.verify(token, config.secreatKey) as typeof request.user;
     return request;
   }
   catch

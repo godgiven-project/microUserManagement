@@ -2,10 +2,9 @@ import { App } from '@godgiven/type-server';
 import { authFunction } from './middleware/authentication-user.js';
 import {
   pageHome,
-  pageRigister
+  pageRigister,
+  pageGetVerifyCode
 } from './page/index.js';
-
-(globalThis as any).secreatKey = 'test secretKey';
 
 const app = new App();
 app.port = 5000;
@@ -14,6 +13,7 @@ app.middlewareList.push(authFunction);
 
 app.register('GET', '/', pageHome);
 app.register('GET', '', pageHome);
+app.register('POST', '/getVerifyCode', pageGetVerifyCode);
 app.register('GET', '/register', pageRigister);
 
 app.listen();
