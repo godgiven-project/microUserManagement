@@ -49,7 +49,7 @@ export const pageVerificationToken = async (request: requestType, response: Serv
     {
       fieldValue = params.field;
     }
-    const update = await database.insert(
+    const update = await database.save(
       fieldValue.replace(/[/|\\:*?"<>]/g, ''),
       {
         code: makeRandomNumber(config.verifyTokenLength)
