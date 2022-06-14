@@ -18,9 +18,15 @@ function makeRandomNumber(count: number): number
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
+/**
+ * Make a code for user that can send to him
+ *
+ * @property {string} value The User info for send code
+ * @property {string} field Type of user info
+ */
 export const pageVerificationToken = async (request: requestType, response: ServerResponse): Promise<void> =>
 {
-  const params = await bodyParser(request).catch((err) => console.log(err));
+  const params = await bodyParser(request);
   if (params == null)
   {
     sendResponse(response, 200, {
@@ -49,16 +55,26 @@ export const pageVerificationToken = async (request: requestType, response: Serv
     {
       fieldValue = params.field;
     }
-    const update = await database.save(
-      fieldValue.replace(/[/|\\:*?"<>]/g, ''),
-      {
-        code: makeRandomNumber(config.verifyTokenLength)
-      },
-      params.value.replace(/[/|\\:*?"<>]/g, ''),
-    );
-    sendResponse(response, 200, {
-      ok: update === true,
-      description: '..:: Welcome ::..',
-    });
+    try
+    {
+      await database.save(
+        fieldValue.replace(/[/|\\:*?"<>]/g, ''),
+        {
+          code: makeRandomNumber(config.verifyTokenLength)
+        },
+        params.value.replace(/[/|\\:*?"<>]/g, ''),
+      );
+      sendResponse(response, 200, {
+        ok: true,
+        description: '..:: Welcome ::..',
+      });
+    }
+    catch (error: any)
+    {
+      sendResponse(response, 200, {
+        ok: false,
+        description: error.code,
+      });
+    }
   }
 };
