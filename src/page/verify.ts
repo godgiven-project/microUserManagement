@@ -61,7 +61,6 @@ export const pageVerify = async (request: requestType, response: ServerResponse)
         fieldValue.replace(/[/|\\:*?"<>]/g, ''),
         params.value.replace(/[/|\\:*?"<>]/g, '')
       );
-      console.log('sssssss', data, params.code);
       if (data.code === params.code)
       {
         let userExist = false;
