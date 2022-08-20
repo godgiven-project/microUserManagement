@@ -3,7 +3,8 @@ import { authFunction } from './middleware/authentication-user.js';
 import {
   pageHome,
   pageRegister,
-  pageVerificationToken
+  pageVerificationToken,
+  pageVerify
 } from './page/index.js';
 
 const app = new App();
@@ -14,6 +15,7 @@ app.middlewareList.push(authFunction);
 app.register('GET', '/', pageHome);
 app.register('GET', '', pageHome);
 app.register('POST', '/VerificationToken', pageVerificationToken);
+app.register('POST', '/VerifyToken', pageVerify);
 app.register('GET', '/register', pageRegister);
 
 app.listen();

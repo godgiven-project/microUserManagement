@@ -60,7 +60,8 @@ export const pageVerificationToken = async (request: requestType, response: Serv
       await database.save(
         fieldValue.replace(/[/|\\:*?"<>]/g, ''),
         {
-          code: makeRandomNumber(config.verifyTokenLength)
+          code: makeRandomNumber(config.verifyTokenLength),
+          try: 0
         },
         params.value.replace(/[/|\\:*?"<>]/g, ''),
       );
