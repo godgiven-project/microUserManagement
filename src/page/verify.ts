@@ -61,6 +61,14 @@ export const pageVerify = async (request: requestType, response: ServerResponse)
         fieldValue.replace(/[/|\\:*?"<>]/g, ''),
         params.value.replace(/[/|\\:*?"<>]/g, '')
       );
+      if (fieldValue === 'password')
+      {
+        sendResponse(response, 200, {
+          ok: false,
+          description: 'Password can not verification',
+        });
+        return;
+      }
       if (data.code === params.code)
       {
         let userExist = false;

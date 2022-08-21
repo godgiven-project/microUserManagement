@@ -55,6 +55,13 @@ export const pageVerificationToken = async (request: requestType, response: Serv
     {
       fieldValue = params.field;
     }
+    if (fieldValue === 'password')
+    {
+      sendResponse(response, 200, {
+        ok: false,
+        description: 'Password can not verification',
+      });
+    }
     try
     {
       await database.save(
