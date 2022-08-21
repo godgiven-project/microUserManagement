@@ -1,12 +1,17 @@
 import { ServerResponse } from 'http';
-import * as jwt from './json-web-token.js';
+// import * as jwt from './json-web-token.js';
 import { config } from '../config.js';
+import { Database } from '@godgiven/database/json-file.js';
 import type { IncomingMessage } from 'http';
+
+const ssoTable = new Database({
+  name: 'sso',
+  path: config.databasePath,
+});
 
 interface UserAuth extends Record<string, unknown>
 {
   username: string;
-  password: string;
   phone?: string;
   email?: string;
 }
@@ -14,7 +19,6 @@ interface UserAuth extends Record<string, unknown>
 interface UserBasic extends Record<string, unknown>
 {
   username: string;
-  password: string;
   phone?: string;
   email?: string;
 }
@@ -27,7 +31,10 @@ export interface requestType extends IncomingMessage
 }
 
 // define plugin using callbacks
-export const authFunction = (request: requestType, _reply: ServerResponse): requestType =>
+export const authFunction = async (
+  request: requestType,
+  _reply: ServerResponse
+): Promise<requestType> =>
 {
   const authHeader = request.headers.authorization;
   let token = '';
@@ -51,7 +58,11 @@ export const authFunction = (request: requestType, _reply: ServerResponse): requ
   // Verify token
   try
   {
-    request.user = jwt.verify(token, config.secretKey) as typeof request.user;
+    const data = await ssoTable.findById(
+      'token',
+      token
+    );
+    request.user = data.user as UserBasic;
     return request;
   }
   catch
