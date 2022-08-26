@@ -30,7 +30,7 @@ export const pageVerify = async (request: requestType, response: ServerResponse)
   {
     sendResponse(response, 200, {
       ok: false,
-      description: '..:: Welcome ::..',
+      description: 'error',
       data: {
         errorList: ['ParamsIsEmpty']
       },
@@ -41,7 +41,7 @@ export const pageVerify = async (request: requestType, response: ServerResponse)
   {
     sendResponse(response, 200, {
       ok: false,
-      description: '..:: Welcome ::..',
+      description: 'error',
       data: {
         errorList: ['ParamsIsNotValid']
       },
@@ -65,14 +65,17 @@ export const pageVerify = async (request: requestType, response: ServerResponse)
       {
         sendResponse(response, 200, {
           ok: false,
-          description: 'Password can not verification',
+          description: 'error',
+          data: {
+            errorList: ['Password can not verification']
+          }
         });
         return;
       }
       if (data.code === params.code)
       {
         let userExist = false;
-        let user = {};
+        let user: Record<string, unknown> | null = null;
         if (params.checkUser === true)
         {
           try
@@ -100,7 +103,7 @@ export const pageVerify = async (request: requestType, response: ServerResponse)
         );
         sendResponse(response, 200, {
           ok: true,
-          description: '..:: Welcome ::..',
+          description: 'data',
           data: {
             userExist,
             token: id
@@ -119,7 +122,10 @@ export const pageVerify = async (request: requestType, response: ServerResponse)
         );
         sendResponse(response, 200, {
           ok: false,
-          description: 'Its` not correct',
+          description: 'error',
+          data: {
+            errorList: ['Its` not correct']
+          }
         });
       }
     }
@@ -127,7 +133,10 @@ export const pageVerify = async (request: requestType, response: ServerResponse)
     {
       sendResponse(response, 200, {
         ok: false,
-        description: error.code,
+        description: 'error',
+        data: {
+          errorList: [error.code]
+        }
       });
     }
   }

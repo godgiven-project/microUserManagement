@@ -57,7 +57,7 @@ export const pageLogin = async (request: requestType, response: ServerResponse):
       fieldValue = params.field;
     }
 
-    let user: any = {};
+    let user: Record<string, unknown> | null = null;
     try
     {
       user = await ssoTable.findById(
@@ -77,7 +77,7 @@ export const pageLogin = async (request: requestType, response: ServerResponse):
     {
       const data = await verifyTable.findById(
         'password',
-        user.id
+        user.id as number
       );
       if (data.code === md5(params.code))
       {
