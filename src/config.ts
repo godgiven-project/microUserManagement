@@ -1,31 +1,26 @@
-type Validation = 'required' | 'html';
+import type { validate } from '@godgiven/validator';
+
+type validateKey = keyof typeof validate;
 
 export interface Config
 {
   baseKey: string;
-  secretKey: string;
   verifyBaseKey: boolean;
   verifyTokenLength: number;
   databasePath: string;
-  validate: Record<string, Record<string, Validation[]>>;
+  validate: Record<string, Record<string, validateKey[]>>;
 }
 
 export const config: Config =
 {
   baseKey: 'phone',
-  secretKey: 'test secretKey',
-  verifyBaseKey: false,
+  verifyBaseKey: true,
   verifyTokenLength: 6,
   databasePath: './data',
   validate: {
     base: {},
     register: {
-      username: ['required'],
-      password: ['required']
+      name: ['isExist'],
     },
-    login: {
-      username: ['required'],
-      password: ['required']
-    }
   }
 };
