@@ -9,13 +9,6 @@ const ssoTable = new Database({
   path: config.databasePath,
 });
 
-interface UserAuth extends Record<string, unknown>
-{
-  username: string;
-  phone?: string;
-  email?: string;
-}
-
 interface UserBasic extends Record<string, unknown>
 {
   username: string;
@@ -23,11 +16,16 @@ interface UserBasic extends Record<string, unknown>
   email?: string;
 }
 
-type UserType = UserAuth | UserBasic;
+export interface Token extends Record<string, unknown>
+{
+  loginFiled: string;
+  loginValue: string;
+  user: UserBasic;
+}
 
 export interface requestType extends IncomingMessage
 {
-  user?: UserType;
+  token?: Token;
 }
 
 // define plugin using callbacks
@@ -50,11 +48,6 @@ export const authFunction = async (
     return request;
   }
 
-  if (config.secretKey == null)
-  {
-    return request;
-  }
-
   // Verify token
   try
   {
@@ -62,7 +55,7 @@ export const authFunction = async (
       'token',
       token
     );
-    request.user = data.user as UserBasic;
+    request.token = data as Token;
     return request;
   }
   catch
