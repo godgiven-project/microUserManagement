@@ -16,6 +16,6 @@ app.register('GET', '/', pageHome);
 app.register('GET', '', pageHome);
 app.register('POST', '/VerificationToken', pageVerificationToken);
 app.register('POST', '/VerifyToken', pageVerify);
-app.register('GET', '/register', pageRegister);
+app.register('POST', '/register', pageRegister);
 
 app.listen();

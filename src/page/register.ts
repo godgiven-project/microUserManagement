@@ -1,14 +1,105 @@
 import { ServerResponse } from 'http';
 import { requestType } from '../middleware/authentication-user';
-import { sendResponse } from '@godgiven/type-server';
+import { sendResponse, bodyParser } from '@godgiven/type-server';
+import { Database } from '@godgiven/database/json-file.js';
+import { validate } from '@godgiven/validator';
+import { config } from '../config.js';
 
-export const pageRegister = async (_request: requestType, response: ServerResponse): Promise<void> =>
+const ssoTable = new Database({
+  name: 'sso',
+  path: config.databasePath,
+});
+
+type validateKey = keyof typeof validate;
+
+export const pageRegister = async (request: requestType, response: ServerResponse): Promise<void> =>
 {
-  sendResponse(response, 200, {
-    ok: true,
-    description: '..:: Welcome ::..',
-    // data: {
-    //   app: packageJson.description,
-    // },
-  });
+  const params = await bodyParser(request);
+  if (params == null)
+  {
+    response.writeHead(500, { 'Content-Type': 'application/json' });
+    response.end();
+  }
+
+  const errorList = [];
+  const usernameKey: string = config.baseKey;
+  const validationList: Record<string, string[]> = {
+    ...config.validate.base,
+    ...config.validate.register,
+  };
+
+  if (validationList[usernameKey] == null)
+  {
+    validationList[usernameKey] = ['isExist'];
+  }
+  else
+  {
+    validationList[usernameKey].push('isExist');
+  }
+
+  if (config.verifyBaseKey === true)
+  {
+    if (request.token == null || request.token.loginFiled !== usernameKey)
+    {
+      sendResponse(response, 200, {
+        ok: false,
+        description: 'error',
+        data: {
+          errorList: ['BaseKey doesn\'t verify']
+        }
+      });
+      return;
+    }
+    else
+    {
+      params[usernameKey] = request.token.loginValue;
+    }
+  }
+
+  for (const key in validationList)
+  {
+    for (const validateKey of validationList[key])
+    {
+      if (validate[validateKey as validateKey] == null) { continue; }
+      if (validate[validateKey as validateKey](params[key]) === false)
+      {
+        errorList.push(`${key}${validateKey}`);
+      }
+    }
+  }
+  if (errorList.length > 0)
+  {
+    sendResponse(response, 200, {
+      ok: false,
+      description: 'error',
+      data: {
+        errorList
+      },
+    });
+    return;
+  }
+
+  try
+  {
+    await ssoTable.insert(
+      'user',
+      params,
+      params[usernameKey]
+    );
+    sendResponse(response, 200, {
+      ok: true,
+      description: '..:: Welcome ::..',
+    });
+  }
+  catch (error)
+  {
+    errorList.push((error as Error).message);
+    sendResponse(response, 200, {
+      ok: false,
+      description: 'error',
+      data: {
+        errorList
+      },
+    });
+  }
 };
