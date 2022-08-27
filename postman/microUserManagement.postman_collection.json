@@ -1,0 +1,136 @@
+{
+	"info": {
+		"_postman_id": "8151aece-373f-4baf-90e1-a8794d451ee5",
+		"name": "microUserManagement",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6245365"
+	},
+	"item": [
+		{
+			"name": "GetVerifyCode",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"value\": \"+989382318206\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/{{v}}/GetVerifyCode",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"{{v}}",
+						"GetVerifyCode"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "VerifyUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"checkUser\": true,\r\n    \"code\": 135663,\r\n    \"value\": \"+989382318206\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/{{v}}/VerifyUser",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"{{v}}",
+						"VerifyUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rigister",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Mohammad khodadadi\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/{{v}}/Register",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"{{v}}",
+						"Register"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://localhost:5000"
+		},
+		{
+			"key": "v",
+			"value": "v1"
+		},
+		{
+			"key": "token",
+			"value": "24cc4298-4894-4a7f-a134-2e3027aaa341",
+			"type": "string"
+		}
+	]
+}
