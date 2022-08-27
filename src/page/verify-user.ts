@@ -23,7 +23,7 @@ const ssoTable = new Database({
  * @property {string} code The User info for send code
  * @property {boolean} checkUser Check user information
  */
-export const pageVerify = async (request: requestType, response: ServerResponse): Promise<void> =>
+export const pageVerifyUser = async (request: requestType, response: ServerResponse): Promise<void> =>
 {
   const params = await bodyParser(request);
   if (params == null)
@@ -57,10 +57,6 @@ export const pageVerify = async (request: requestType, response: ServerResponse)
 
     try
     {
-      const data = await verifyTable.findById(
-        fieldValue.replace(/[/|\\:*?"<>]/g, ''),
-        params.value.replace(/[/|\\:*?"<>]/g, '')
-      );
       if (fieldValue === 'password')
       {
         sendResponse(response, 200, {
@@ -72,8 +68,30 @@ export const pageVerify = async (request: requestType, response: ServerResponse)
         });
         return;
       }
+      const data = await verifyTable.findById(
+        fieldValue.replace(/[/|\\:*?"<>]/g, ''),
+        params.value.replace(/[/|\\:*?"<>]/g, '')
+      );
       if (data.code === params.code)
       {
+        if (data.pass === true)
+        {
+          sendResponse(response, 200, {
+            ok: false,
+            description: 'error',
+            data: {
+              errorList: ['Code is expire']
+            }
+          });
+        }
+        await verifyTable.updateById(
+          fieldValue.replace(/[/|\\:*?"<>]/g, ''),
+          {
+            ...data,
+            pass: true,
+          },
+          params.value.replace(/[/|\\:*?"<>]/g, '')
+        );
         let userExist = false;
         let user: Record<string, unknown> | null = null;
         if (params.checkUser === true)
@@ -81,7 +99,8 @@ export const pageVerify = async (request: requestType, response: ServerResponse)
           try
           {
             user = await ssoTable.findById(
-              fieldValue.replace(/[/|\\:*?"<>]/g, ''),
+              // fieldValue.replace(/[/|\\:*?"<>]/g, ''), TODO: we should make index for this.
+              'user',
               params.value.replace(/[/|\\:*?"<>]/g, '')
             );
             userExist = true;

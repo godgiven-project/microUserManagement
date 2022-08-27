@@ -24,7 +24,7 @@ function makeRandomNumber(count: number): number
  * @property {string} value The User info for send code
  * @property {string} field Type of user info
  */
-export const pageVerificationToken = async (request: requestType, response: ServerResponse): Promise<void> =>
+export const pageGetVerifyCode = async (request: requestType, response: ServerResponse): Promise<void> =>
 {
   const params = await bodyParser(request);
   if (params == null)
@@ -68,7 +68,8 @@ export const pageVerificationToken = async (request: requestType, response: Serv
         fieldValue.replace(/[/|\\:*?"<>]/g, ''),
         {
           code: makeRandomNumber(config.verifyTokenLength),
-          try: 0
+          try: 0,
+          pass: false
         },
         params.value.replace(/[/|\\:*?"<>]/g, ''),
       );
