@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "VerificationToken",
+			"name": "GetVerifyCode",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -21,26 +21,26 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/{{v}}/VerificationToken",
+					"raw": "{{host}}/{{v}}/GetVerifyCode",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"{{v}}",
-						"VerificationToken"
+						"GetVerifyCode"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "VerifyToken",
+			"name": "VerifyUser",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"checkUser\": true,\r\n    \"code\": 504792,\r\n    \"value\": \"+989382318206\"\r\n}",
+					"raw": "{\r\n    \"checkUser\": true,\r\n    \"code\": 135663,\r\n    \"value\": \"+989382318206\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -48,13 +48,50 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/{{v}}/VerifyToken",
+					"raw": "{{host}}/{{v}}/VerifyUser",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"{{v}}",
-						"VerifyToken"
+						"VerifyUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rigister",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Mohammad khodadadi\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/{{v}}/Register",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"{{v}}",
+						"Register"
 					]
 				}
 			},
@@ -89,6 +126,11 @@
 		{
 			"key": "v",
 			"value": "v1"
+		},
+		{
+			"key": "token",
+			"value": "24cc4298-4894-4a7f-a134-2e3027aaa341",
+			"type": "string"
 		}
 	]
 }
