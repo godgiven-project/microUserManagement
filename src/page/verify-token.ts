@@ -16,12 +16,16 @@ const ssoTable = new Database({
  */
 export const pageVerifyToken = async (request: requestType, response: ServerResponse): Promise<void> =>
 {
-  const params = await bodyParser(request);
-  if (params == null)
+  let params: Record<string, unknown> = {};
+  try
+  {
+    params = await bodyParser(request);
+  }
+  catch
   {
     sendResponse(response, 200, {
       ok: false,
-      description: '..:: Welcome ::..',
+      description: 'error',
       data: {
         errorList: ['ParamsIsEmpty']
       },
@@ -37,7 +41,7 @@ export const pageVerifyToken = async (request: requestType, response: ServerResp
   {
     sendResponse(response, 200, {
       ok: false,
-      description: '..:: Welcome ::..',
+      description: 'error',
       data: {
         errorList: ['ParamsIsNotValid']
       },

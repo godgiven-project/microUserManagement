@@ -32,7 +32,7 @@ export const pageLogin = async (request: requestType, response: ServerResponse):
   {
     sendResponse(response, 200, {
       ok: false,
-      description: '..:: Welcome ::..',
+      description: 'error',
       data: {
         errorList: ['ParamsIsEmpty']
       },
@@ -43,7 +43,7 @@ export const pageLogin = async (request: requestType, response: ServerResponse):
   {
     sendResponse(response, 200, {
       ok: false,
-      description: '..:: Welcome ::..',
+      description: 'error',
       data: {
         errorList: ['ParamsIsNotValid']
       },
@@ -69,7 +69,10 @@ export const pageLogin = async (request: requestType, response: ServerResponse):
     {
       sendResponse(response, 200, {
         ok: false,
-        description: 'User not exist',
+        description: 'error',
+        data: {
+          errorList: ['User not exist']
+        }
       });
       return;
     }
@@ -93,7 +96,7 @@ export const pageLogin = async (request: requestType, response: ServerResponse):
         );
         sendResponse(response, 200, {
           ok: true,
-          description: '..:: Welcome ::..',
+          description: 'data',
           data: {
             token: id
           }
@@ -110,8 +113,11 @@ export const pageLogin = async (request: requestType, response: ServerResponse):
           params.value.replace(/[/|\\:*?"<>]/g, '')
         );
         sendResponse(response, 200, {
-          ok: false,
-          description: 'Its` not correct',
+          ok: true,
+          description: 'error',
+          data: {
+            errorList: ['Its` not correct']
+          }
         });
       }
     }

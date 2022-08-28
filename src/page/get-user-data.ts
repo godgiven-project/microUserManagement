@@ -17,12 +17,16 @@ const ssoTable = new Database({
  */
 export const pageGetUserData = async (request: requestType, response: ServerResponse): Promise<void> =>
 {
-  const params = await bodyParser(request);
-  if (params == null)
+  let params: Record<string, unknown> = {};
+  try
+  {
+    params = await bodyParser(request);
+  }
+  catch
   {
     sendResponse(response, 200, {
       ok: false,
-      description: '..:: Welcome ::..',
+      description: 'error',
       data: {
         errorList: ['ParamsIsEmpty']
       },
@@ -38,7 +42,7 @@ export const pageGetUserData = async (request: requestType, response: ServerResp
   {
     sendResponse(response, 200, {
       ok: false,
-      description: '..:: Welcome ::..',
+      description: 'error',
       data: {
         errorList: ['ParamsIsNotValid']
       },
@@ -57,7 +61,7 @@ export const pageGetUserData = async (request: requestType, response: ServerResp
       {
         const data = await ssoTable.findById(
           'user',
-          params.userId
+          params.UserId
         );
 
         sendResponse(response, 200, {
