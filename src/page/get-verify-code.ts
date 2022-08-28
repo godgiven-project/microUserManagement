@@ -4,45 +4,52 @@ import { sendResponse, bodyParser } from '@godgiven/type-server';
 import { Database } from '@godgiven/database/json-file.js';
 import { config } from '../config.js';
 
+const ssoTable = new Database({
+  name: 'sso',
+  path: config.databasePath,
+});
+
 const database = new Database({
   name: 'verification',
   path: config.databasePath,
 });
-/**
- *
- */
-function makeRandomNumber(count: number): number
-{
-  const min = Math.pow(10, count - 1);
-  const max = Math.pow(10, count) - 1;
-  return Math.floor(Math.random() * (max - min)) + min;
-}
 
 /**
  * Make a code for user that can send to him
  *
- * @property {string} value The User info for send code
- * @property {string} field Type of user info
+ * @property {string} apiKey A key for external server
+ * @property {string} field The User info for send code
+ * @property {string} value Type of user info
  */
 export const pageGetVerifyCode = async (request: requestType, response: ServerResponse): Promise<void> =>
 {
-  const params = await bodyParser(request);
-  if (params == null)
+  let params: Record<string, unknown> = {};
+  try
+  {
+    params = await bodyParser(request);
+  }
+  catch
   {
     sendResponse(response, 200, {
       ok: false,
-      description: '..:: Welcome ::..',
+      description: 'error',
       data: {
         errorList: ['ParamsIsEmpty']
       },
     });
     return;
   }
-  if (params.value == null || typeof params.value !== 'string')
+
+  if (
+    params.apiKey == null ||
+    typeof params.apiKey !== 'string' ||
+    params.value == null ||
+    typeof params.value !== 'string'
+  )
   {
     sendResponse(response, 200, {
       ok: false,
-      description: '..:: Welcome ::..',
+      description: 'error',
       data: {
         errorList: ['ParamsIsNotValid']
       },
@@ -50,39 +57,52 @@ export const pageGetVerifyCode = async (request: requestType, response: ServerRe
   }
   else
   {
-    let fieldValue: string = 'phone';
-    if (params.field != null && typeof params.field === 'string')
-    {
-      fieldValue = params.field;
-    }
-    if (fieldValue === 'password')
-    {
-      sendResponse(response, 200, {
-        ok: false,
-        description: 'Password can not verification',
-      });
-    }
+    // Verify token
     try
     {
-      await database.save(
-        fieldValue.replace(/[/|\\:*?"<>]/g, ''),
-        {
-          code: makeRandomNumber(config.verifyTokenLength),
-          try: 0,
-          pass: false
-        },
-        params.value.replace(/[/|\\:*?"<>]/g, ''),
+      await ssoTable.findById(
+        'api-key',
+        params.apiKey
       );
-      sendResponse(response, 200, {
-        ok: true,
-        description: '..:: Welcome ::..',
-      });
+      try
+      {
+        let fieldValue: string = 'phone';
+        if (params.field != null && typeof params.field === 'string')
+        {
+          fieldValue = params.field;
+        }
+        const data = await database.findById(
+          fieldValue.replace(/[/|\\:*?"<>]/g, ''),
+          params.value.replace(/[/|\\:*?"<>]/g, ''),
+        );
+
+        sendResponse(response, 200, {
+          ok: true,
+          description: 'data',
+          data: {
+            code: data.code
+          }
+        });
+      }
+      catch
+      {
+        sendResponse(response, 200, {
+          ok: true,
+          description: 'error',
+          data: {
+            errorList: ['Value is not Exist']
+          }
+        });
+      }
     }
-    catch (error: any)
+    catch
     {
       sendResponse(response, 200, {
-        ok: false,
-        description: error.code,
+        ok: true,
+        description: 'error',
+        data: {
+          errorList: ['Api Key is not Valid']
+        }
       });
     }
   }
