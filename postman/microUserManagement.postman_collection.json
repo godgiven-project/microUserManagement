@@ -7,7 +7,102 @@
 	},
 	"item": [
 		{
-			"name": "GetVerifyCode",
+			"name": "other-microservice",
+			"item": [
+				{
+					"name": "GetVerifyCode",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"apiKey\": \"456898989895959595\",\r\n    \"field\": \"phone\",\r\n    \"value\": \"+989382318206\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/{{v}}/GetVerifyCode",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{v}}",
+								"GetVerifyCode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "VerifyToken",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"apiKey\": \"456898989895959595\",\r\n    \"token\": \"2b8b95ad-bc01-483d-8710-06f9dabee3bf\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/{{v}}/VerifyToken",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{v}}",
+								"VerifyToken"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetUserData",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"apiKey\": \"456898989895959595\",\r\n    \"UserId\": \"+989382318206\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/{{v}}/GetUserData",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{v}}",
+								"GetUserData"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MakeVerifyCode",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -21,13 +116,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/{{v}}/GetVerifyCode",
+					"raw": "{{host}}/{{v}}/MakeVerifyCode",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"{{v}}",
-						"GetVerifyCode"
+						"MakeVerifyCode"
 					]
 				}
 			},
