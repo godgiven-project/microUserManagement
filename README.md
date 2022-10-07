@@ -7,16 +7,8 @@ Typescript userManagement microservice with blow service:
 - Reset Password
 - One time password
 
-## Steps to Register
+## Steps to Register or Login
 
-makeVerifyCode
-
-VerifyUser
-
-Register
-
-## Steps to Login
-
-makeVerifyCode
-
-VerifyUser
+1. makeVerifyCode
+2. VerifyUser
+3. Register or login
