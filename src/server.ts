@@ -22,15 +22,15 @@ app.register('GET', '', pageHome);
 
 // 1. Get verify code
 app.register('POST', '/MakeVerifyCode', pageMakeVerifyCode);
-app.register('GET', '/GetVerifyCode', pageGetVerifyCode);
+app.register('POST', '/GetVerifyCode', pageGetVerifyCode);
 
 // 2. Verify code and make token
 app.register('POST', '/VerifyUser', pageVerifyUser);
-app.register('GET', '/Login', pageLogin);
+app.register('POST', '/Login', pageLogin);
 
 // 3. Register or get user Data
 app.register('POST', '/Register', pageRegister);
-app.register('GET', '/GetUserData', pageGetUserData);
-app.register('GET', '/VerifyToken', pageVerifyToken);
+app.register('POST', '/GetUserData', pageGetUserData);
+app.register('POST', '/VerifyToken', pageVerifyToken);
 
 app.listen();

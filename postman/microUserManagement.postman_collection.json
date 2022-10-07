@@ -11,11 +11,8 @@
 			"item": [
 				{
 					"name": "GetVerifyCode",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -41,11 +38,8 @@
 				},
 				{
 					"name": "VerifyToken",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -71,11 +65,8 @@
 				},
 				{
 					"name": "GetUserData",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -187,6 +178,36 @@
 					"path": [
 						"{{v}}",
 						"Register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"code\": \"135663\",\r\n    \"value\": \"+989382318206\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/{{v}}/Login",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"{{v}}",
+						"Login"
 					]
 				}
 			},

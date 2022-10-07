@@ -27,8 +27,12 @@ const ssoTable = new Database({
  */
 export const pageLogin = async (request: requestType, response: ServerResponse): Promise<void> =>
 {
-  const params = await bodyParser(request);
-  if (params == null)
+  let params: Record<string, unknown> = {};
+  try
+  {
+    params = await bodyParser(request);
+  }
+  catch
   {
     sendResponse(response, 200, {
       ok: false,
@@ -61,7 +65,8 @@ export const pageLogin = async (request: requestType, response: ServerResponse):
     try
     {
       user = await ssoTable.findById(
-        fieldValue.replace(/[/|\\:*?"<>]/g, ''),
+        // fieldValue.replace(/[/|\\:*?"<>]/g, ''), TODO: we should make index for this.
+        'user',
         params.value.replace(/[/|\\:*?"<>]/g, '')
       );
     }
@@ -80,9 +85,13 @@ export const pageLogin = async (request: requestType, response: ServerResponse):
     {
       const data = await verifyTable.findById(
         'password',
-        user.id as number
+        user._id as string
       );
-      if (data.code === md5(params.code))
+      if (
+        params.code != null &&
+        typeof params.code === 'string' &&
+        data.code === md5(params.code)
+      )
       {
         const id = createId();
         await ssoTable.insert(
@@ -105,7 +114,8 @@ export const pageLogin = async (request: requestType, response: ServerResponse):
       else
       {
         await verifyTable.updateById(
-          fieldValue.replace(/[/|\\:*?"<>]/g, ''),
+          // fieldValue.replace(/[/|\\:*?"<>]/g, ''),
+          'password',
           {
             ...data,
             try: (data.try as number + 1)
