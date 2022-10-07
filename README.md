@@ -9,15 +9,14 @@ Typescript userManagement microservice with blow service:
 
 ## Steps to Register
 
----------
-
 makeVerifyCode
+
 VerifyUser
+
 Register
 
 ## Steps to Login
 
----------
-
 makeVerifyCode
+
 VerifyUser
