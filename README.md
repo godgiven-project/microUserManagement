@@ -11,4 +11,5 @@ Typescript userManagement microservice with blow service:
 
 1. makeVerifyCode
 2. VerifyUser
-3. Register or login
+3. Check token in ui
+4. Register or login
