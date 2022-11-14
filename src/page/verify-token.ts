@@ -34,9 +34,10 @@ export const pageVerifyToken = async (request: requestType, response: ServerResp
   }
   if (
     params.token == null ||
-    typeof params.token !== 'string' ||
-    params.apiKey == null ||
-    typeof params.apiKey !== 'string'
+    typeof params.token !== 'string'
+    // ||
+    // params.apiKey == null ||
+    // typeof params.apiKey !== 'string'
   )
   {
     sendResponse(response, 200, {
@@ -50,36 +51,25 @@ export const pageVerifyToken = async (request: requestType, response: ServerResp
   else
   {
     // Verify token
+    // try
+    // {
+    //   await ssoTable.findById(
+    //     'api-key',
+    //     params.apiKey
+    //   );
+
     try
     {
-      await ssoTable.findById(
-        'api-key',
-        params.apiKey
+      const data = await ssoTable.findById(
+        'token',
+        params.token
       );
 
-      try
-      {
-        const data = await ssoTable.findById(
-          'token',
-          params.token
-        );
-
-        sendResponse(response, 200, {
-          ok: true,
-          description: 'data',
-          data
-        });
-      }
-      catch
-      {
-        sendResponse(response, 200, {
-          ok: true,
-          description: 'error',
-          data: {
-            errorList: ['Token is not Valid']
-          }
-        });
-      }
+      sendResponse(response, 200, {
+        ok: true,
+        description: 'data',
+        data
+      });
     }
     catch
     {
@@ -87,9 +77,20 @@ export const pageVerifyToken = async (request: requestType, response: ServerResp
         ok: true,
         description: 'error',
         data: {
-          errorList: ['Api Key is not Valid']
+          errorList: ['Token is not Valid']
         }
       });
     }
+    // }
+    // catch
+    // {
+    //   sendResponse(response, 200, {
+    //     ok: true,
+    //     description: 'error',
+    //     data: {
+    //       errorList: ['Api Key is not Valid']
+    //     }
+    //   });
+    // }
   }
 };
