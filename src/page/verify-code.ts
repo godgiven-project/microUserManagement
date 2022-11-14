@@ -23,7 +23,7 @@ const ssoTable = new Database({
  * @property {string} code The User info for send code
  * @property {boolean} checkUser Check user information
  */
-export const pageVerifyUser = async (request: requestType, response: ServerResponse): Promise<void> =>
+export const pageVerifyCode = async (request: requestType, response: ServerResponse): Promise<void> =>
 {
   const params = await bodyParser(request);
   if (params == null)

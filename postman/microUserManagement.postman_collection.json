@@ -120,7 +120,7 @@
 			"response": []
 		},
 		{
-			"name": "VerifyUser",
+			"name": "VerifyCode",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -134,7 +134,7 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/{{v}}/VerifyUser",
+					"raw": "{{host}}/{{v}}/VerifyCode",
 					"host": [
 						"{{host}}"
 					],

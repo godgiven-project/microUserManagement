@@ -5,7 +5,7 @@ import {
   pageRegister,
   pageGetVerifyCode,
   pageMakeVerifyCode,
-  pageVerifyUser,
+  pageVerifyCode,
   pageGetUserData,
   pageVerifyToken,
   pageLogin
@@ -25,7 +25,7 @@ app.register('POST', '/MakeVerifyCode', pageMakeVerifyCode);
 app.register('POST', '/GetVerifyCode', pageGetVerifyCode);
 
 // 2. Verify code and make token
-app.register('POST', '/VerifyUser', pageVerifyUser);
+app.register('POST', '/VerifyCode', pageVerifyCode);
 app.register('POST', '/Login', pageLogin);
 
 // 3. Register or get user Data
