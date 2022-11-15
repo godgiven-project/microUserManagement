@@ -35,7 +35,8 @@ app.register('POST', '/Register', pageRegister);
 app.register('POST', '/GetUserData', pageGetUserData);
 app.register('POST', '/VerifyToken', pageVerifyToken);
 
-//
+// 4. MyAccount
 app.register('POST', '/MyAccount/edit', pageEditMyAccount);
 app.register('POST', '/MyAccount/get', pageGetMyAccount);
+
 app.listen();
