@@ -6,3 +6,5 @@ export * from './get-verify-code.js';
 export * from './make-verify-code.js';
 export * from './verify-token.js';
 export * from './get-user-data.js';
+export * from './my-account/get.js';
+export * from './my-account/edit.js';

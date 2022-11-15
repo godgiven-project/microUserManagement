@@ -9,6 +9,7 @@ export interface Config
   verifyTokenLength: number;
   databasePath: string;
   validate: Record<string, Record<string, validateKey[]>>;
+  editable: string[];
 }
 
 export const config: Config =
@@ -22,5 +23,6 @@ export const config: Config =
     register: {
       name: ['isExist'],
     },
-  }
+  },
+  editable: ['name', 'email', 'plan']
 };

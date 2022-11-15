@@ -8,7 +8,9 @@ import {
   pageVerifyCode,
   pageGetUserData,
   pageVerifyToken,
-  pageLogin
+  pageLogin,
+  pageEditMyAccount,
+  pageGetMyAccount
 } from './page/index.js';
 
 const app = new App();
@@ -33,4 +35,7 @@ app.register('POST', '/Register', pageRegister);
 app.register('POST', '/GetUserData', pageGetUserData);
 app.register('POST', '/VerifyToken', pageVerifyToken);
 
+//
+app.register('POST', '/MyAccount/edit', pageEditMyAccount);
+app.register('POST', '/MyAccount/get', pageGetMyAccount);
 app.listen();
